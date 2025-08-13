@@ -46,3 +46,25 @@ This definition is intrinsic and does not rely on any embedding, making it a pow
 
 ## Differential of a Smooth map
 
+In vector spaces, the derivative of a function can be linearized. On manifolds, the structure is more complex, requiring us to generalize the derivative as a map between tangent spaces.
+
+**Definition:** Suppose $F : M \to N$ is a smooth map between manifolds $M$ and $N$. The **differential of $F$** at a point $a \in M$ is a map
+$$ dF_a : T_a M \to T_{F(a)} N $$
+defined by
+$$ (dF_a(v))(f) = v(f \circ F) $$
+for all $v \in T_a M$ and $f \in C^{\infty}(N)$.
+
+This map essentially tells us how a tangent vector in $M$ is transformed into a tangent vector in $N$ by the map $F$.
+
+**Theorem:** If $F: M \to N$ is a diffeomorphism, then its differential $dF_p : T_p M \to T_{F(p)} N$ is an isomorphism, and $(dF_p)^{-1} = dF^{-1}_{F(p)}$.
+
+This theorem states that if two manifolds have the same smooth structure, their tangent spaces are identical at corresponding points.
+
+### Derivations are Local
+
+The final key property of derivations is their local nature.
+
+**Theorem:** Let M be a smooth manifold, $p \in M$, and $f,g \in C^{\infty}(M)$ be two functions that agree on some neighborhood of $p$. Then for any derivation $v$ at $p$, we have $v(f) = v(g)$.
+
+This means that a tangent vector only "cares" about the behavior of a function in an infinitesimal neighborhood of the point, not its global properties.
+
