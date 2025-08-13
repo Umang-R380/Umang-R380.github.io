@@ -1,70 +1,94 @@
 # TANGENT VECTORS
-
 *Authored by: Umang R*
 
 ---
 
 ## Tangent Vectors
 
-This document presents an intrinsic approach to defining tangent vectors for arbitrary manifolds, moving beyond the traditional notion of tangent vectors as a subset of a larger Euclidean space. We begin by redefining the concept for the familiar Euclidean space before generalizing it to manifolds.
+We want an intrinsic definition of tangent vectors for arbitrary manifolds. In the plane, you can picture tangents as sitting inside an ambient Euclidean space, but for manifolds we don’t want to rely on any embedding.
 
-### Tangent Space in $\mathbb{R}^n$
+We’ll start in Euclidean space and then abstract.
 
-For any $a \in \mathbb{R}^{n}$, the tangent space of $\mathbb{R}^{n}$ at $a$ can be defined as the set $\{(a,v): v \in \mathbb{R}^{n}\}$, where $v$ is a vector in $\mathbb{R}^{n}$. This tangent space, denoted as $T_a \mathbb{R}^{n}$, is isomorphic to $\mathbb{R}^{n}$. However, this vector-based definition isn't suitable for generalization.
+### Tangent space in \(\mathbb{R}^n\)
 
-A more fruitful approach is to define direction using **directional derivatives**. The directional derivative of a smooth function $f: \mathbb{R}^{n} \to \mathbb{R}$ at a point $a$ in the direction of a vector $v$ is given by:
+**Definition.** For any \(a \in \mathbb{R}^{n}\), the **tangent space** of \(\mathbb{R}^{n}\) at \(a\) can be defined (naively) as
+\[
+T_a\mathbb{R}^n \cong \{(a,v): v \in \mathbb{R}^n\}.
+\]
+This is isomorphic to \(\mathbb{R}^n\), but this vector-based definition isn’t great for generalization.
 
-$$ D_{v}f(a) = \lim_{t \to 0} \frac{f(a + tv) - f(a)}{t} $$
+A better route is to encode “direction” via **directional derivatives**. For a smooth \(f:\mathbb{R}^n\to\mathbb{R}\), the directional derivative at \(a\) in the direction \(v\in\mathbb{R}^n\) is
+\[
+D_v f(a) \;=\; \lim_{t\to 0}\frac{f(a+tv)-f(a)}{t}.
+\]
 
-This formulation is key because the set of directional derivatives has a one-to-one correspondence with the set of vectors.
+Key fact: geometric vectors \(v\) at \(a\) correspond **one-to-one** with directional-derivative operators \(f \mapsto D_v f(a)\). That correspondence is what survives on manifolds.
 
-### Derivations
+### Derivations at a point
 
-We now introduce the concept of a **derivation**, which is a formal, abstract way to define a tangent vector.
+**Definition.** A map \(\omega:C^\infty(\mathbb{R}^n)\to\mathbb{R}\) is a **derivation at \(a\in\mathbb{R}^n\)** if
+1. \(\omega\) is \(\mathbb{R}\)-linear, and  
+2. \(\omega(fg) = f(a)\,\omega(g) + g(a)\,\omega(f)\) for all \(f,g\in C^\infty(\mathbb{R}^n)\).
 
-**Definition:** A map $\omega: C^{\infty}(\mathbb{R}^{n}) \to \mathbb{R}$ is called a **derivation** at $a \in \mathbb{R}^{n}$ if it satisfies:
-1. The map is linear over $\mathbb{R}$.
-2. For any $f,g \in C^{\infty}(\mathbb{R}^{n})$, it obeys the Leibniz rule: $\omega(fg) = f(a) \omega(g) + g(a) \omega(f)$.
+Denote the set of all derivations at \(a\) by \(T_a\mathbb{R}^n\). This is a vector space (in fact isomorphic to \(\mathbb{R}^n\)).
 
-The set of all derivations at $a$ forms the **tangent space** $T_a \mathbb{R}^{n}$. This set is a vector space over $\mathbb{R}$ and is isomorphic to $\mathbb{R}^{n}$.
+**Theorem.** Let \(a\in\mathbb{R}^n\), \(f,g\in C^\infty(\mathbb{R}^n)\), and \(\omega\in T_a\mathbb{R}^n\). Then:
+- If \(f\) is constant, \(\omega(f)=0\).
+- If \(f(a)=g(a)=0\), then \(\omega(fg)=0\).
 
-**Theorem:** The map $v_a \to D_v|_a$ is an isomorphism from $\mathbb{R}^{n}$ onto $T_a \mathbb{R}^{n}$.
+*Proof.* Routine; left as an exercise.
 
-This theorem proves that the familiar directional derivatives are, in fact, derivations in disguise and that our new, abstract definition of a tangent vector is equivalent to the old one in $\mathbb{R}^n$.
+Now think of \(T_a\mathbb{R}^n\) as “all possible velocities compressed at \(a\)”. Next we prove that these derivations are exactly the same thing as directional derivatives.
 
-**Corollary:** The set of partial derivatives $\left\{ \frac{\partial}{\partial x^i} \right\}_{i=1}^{n}$ forms a basis for the tangent space $T_a \mathbb{R}^{n}$.
+**Theorem.** Let \(a\in\mathbb{R}^n\).
+1. For each vector \(v\in\mathbb{R}^n\), the map \(D_v|_a:C^\infty(\mathbb{R}^n)\to\mathbb{R}\) defined by \(D_v|_a(f)=D_v f(a)\) is a derivation at \(a\).
+2. The map \(v\mapsto D_v|_a\) is a vector space isomorphism \(\mathbb{R}^n \xrightarrow{\sim} T_a\mathbb{R}^n\).
 
-### Generalizing to Manifolds
+*Sketch.* (1) is standard. For (2), injectivity: if \(D_v|_a=0\) and \(v=\sum_i v^i e_i\), then applying to coordinate functions \(x^j\) gives \(v^j=0\), so \(v=0\).  
+Surjectivity: given \(\omega\in T_a\mathbb{R}^n\), set \(v^i := \omega(x^i)\) and \(v=\sum_i v^i e_i\). Taylor’s formula at \(a\) yields
+\[
+\omega(f)=\sum_{i=1}^n \frac{\partial f}{\partial x^i}(a)\,v^i \;=\; D_v f(a).
+\]
+Done.
 
-The derivation concept is the key to defining tangent vectors on general manifolds, where an ambient Euclidean space might not be available.
+**Corollary.** \(\left\{ \frac{\partial}{\partial x^i}\big|_a \right\}_{i=1}^n\) is a basis of \(T_a\mathbb{R}^n\).
 
-**Definition:** A map $ v : C^{\infty}(M) \to \mathbb{R} $ is called a **derivation** at a point $a \in M$ if it satisfies the linearity and Leibniz rules. The set of all derivations at $a$ forms the **tangent space** $T_a M$.
+### Intrinsic definition on a manifold
 
-This definition is intrinsic and does not rely on any embedding, making it a powerful tool for studying manifold properties.
+**Definition.** Let \(M\) be a smooth manifold and \(a\in M\). A map \(v:C^\infty(M)\to\mathbb{R}\) is a **derivation at \(a\)** if it is linear and satisfies the Leibniz rule
+\[
+v(fg)=f(a)\,v(g)+g(a)\,v(f)\qquad\forall f,g\in C^\infty(M).
+\]
+The set of derivations at \(a\) is the **tangent space** \(T_a M\).
+
+Observation: tangent vectors are **local** objects. You don’t need any ambient space to define them.
 
 ---
 
-## Differential of a Smooth map
+## Differential of a smooth map
 
-In vector spaces, the derivative of a function can be linearized. On manifolds, the structure is more complex, requiring us to generalize the derivative as a map between tangent spaces.
+For manifolds, “derivative” is a map between tangent spaces.
 
-**Definition:** Suppose $F : M \to N$ is a smooth map between manifolds $M$ and $N$. The **differential of $F$** at a point $a \in M$ is a map
-$$ dF_a : T_a M \to T_{F(a)} N $$
-defined by
-$$ (dF_a(v))(f) = v(f \circ F) $$
-for all $v \in T_a M$ and $f \in C^{\infty}(N)$.
+**Definition.** If \(F:M\to N\) is smooth, the **differential** at \(a\in M\) is
+\[
+dF_a : T_a M \to T_{F(a)} N,\qquad (dF_a(v))(f) \;=\; v(f\circ F),
+\]
+for all \(v\in T_a M\) and \(f\in C^\infty(N)\). One checks this is indeed a derivation at \(F(a)\).
 
-This map essentially tells us how a tangent vector in $M$ is transformed into a tangent vector in $N$ by the map $F$.
+**Theorem.** If \(F:M\to N\) and \(G:N\to P\) are smooth maps between smooth manifolds, then
+\[
+d(G\circ F)_a \;=\; dG_{F(a)} \circ dF_a.
+\]
+If \(F\) is a diffeomorphism, then \(dF_a: T_a M \to T_{F(a)} N\) is an isomorphism and
+\[
+(dF_a)^{-1} \;=\; d(F^{-1})_{F(a)}.
+\]
 
-**Theorem:** If $F: M \to N$ is a diffeomorphism, then its differential $dF_p : T_p M \to T_{F(p)} N$ is an isomorphism, and $(dF_p)^{-1} = dF^{-1}_{F(p)}$.
+*Proof.* Direct from the definition and the chain rule via pullbacks.
 
-This theorem states that if two manifolds have the same smooth structure, their tangent spaces are identical at corresponding points.
+**Locality of derivations.** If \(f,g\in C^\infty(M)\) agree on some neighborhood of \(p\in M\), then for every \(v\in T_p M\) we have \(v(f)=v(g)\).  
+*Idea:* Apply \(v\) to a bump function \(\psi\) that is \(1\) on a neighborhood where \(f=g\) and vanishes near \(p\) otherwise; then \(v(\psi(f-g))=0\).
 
-### Derivations are Local
+---
 
-The final key property of derivations is their local nature.
-
-**Theorem:** Let M be a smooth manifold, $p \in M$, and $f,g \in C^{\infty}(M)$ be two functions that agree on some neighborhood of $p$. Then for any derivation $v$ at $p$, we have $v(f) = v(g)$.
-
-This means that a tangent vector only "cares" about the behavior of a function in an infinitesimal neighborhood of the point, not its global properties.
 
