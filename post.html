@@ -1,74 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Blog Post</title>
-  <link rel="stylesheet" href="style.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Post Viewer</title>
+<link rel="stylesheet" href="style.css">
 
-  <!-- Polyfill for ES6 -->
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<!-- MathJax configuration -->
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    packages: {'[+]': ['ams']}
+  },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
 
-  <!-- MathJax v3 -->
-  <script>
-    window.MathJax = {
-      tex: {
-        inlineMath: [['$', '$'], ['\\(', '\\)']],
-        displayMath: [['$$', '$$'], ['\\[', '\\]']]
-      },
-      svg: { fontCache: 'global' }
-    };
-  </script>
-  <script id="MathJax-script" async 
-    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
-  </script>
-
-  <!-- Marked.js -->
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<!-- Marked.js for Markdown parsing -->
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
-  <div class="container">
-    <header class="post-header">
-      <a href="index.html">← Back to Home</a>
-    </header>
-    <main id="post-content" class="post-content"></main>
-  </div>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', async () => {
-      const params = new URLSearchParams(window.location.search);
-      const postFile = params.get('post');
-      const contentElement = document.getElementById('post-content');
+<div id="content">Loading...</div>
 
-      if (postFile) {
-        try {
-          const response = await fetch(`posts/${postFile}.md`);
-          if (!response.ok) throw new Error('Post not found.');
+<script>
+(async () => {
+  // Get ?post=filename from URL
+  const params = new URLSearchParams(window.location.search);
+  const postName = params.get('post');
+  if (!postName) {
+    document.getElementById('content').innerText = "No post specified.";
+    return;
+  }
 
-          const markdown = await response.text();
+  try {
+    // Fetch the markdown file
+    const res = await fetch(`posts/${postName}.md`);
+    if (!res.ok) throw new Error("Post not found.");
+    let markdown = await res.text();
 
-          // Render markdown
-          contentElement.innerHTML = marked.parse(markdown);
+    // Convert [ ... ] math to $ ... $ so MathJax will process it
+    markdown = markdown.replace(/\[(.*?)\]/g, (_, math) => `$${math}$`);
 
-          // Set document title from first h1
-          const postTitle = contentElement.querySelector('h1');
-          if (postTitle) {
-            document.title = postTitle.innerText;
-          }
+    // Render markdown to HTML
+    const html = marked.parse(markdown);
+    const contentElement = document.getElementById('content');
+    contentElement.innerHTML = html;
 
-          // Trigger MathJax rendering after content insertion
-          if (window.MathJax && MathJax.typesetPromise) {
-            MathJax.typesetPromise();
-          }
+    // Typeset math after DOM update
+    if (window.MathJax && MathJax.typesetPromise) {
+      await MathJax.typesetPromise();
+    }
+  } catch (err) {
+    document.getElementById('content').innerText = "Error loading post: " + err.message;
+  }
+})();
+</script>
 
-        } catch (error) {
-          contentElement.innerHTML = `<h1>Error</h1><p>${error.message}</p>`;
-        }
-      } else {
-        contentElement.innerHTML = '<h1>Error</h1><p>No post specified.</p>';
-      }
-    });
-  </script>
 </body>
 </html>
+
 
