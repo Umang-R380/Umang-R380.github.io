@@ -32,13 +32,13 @@ The set of all derivations at $a$ forms the **tangent space** $T_a \mathbb{R}^{n
 
 This theorem proves that the familiar directional derivatives are, in fact, derivations in disguise and that our new, abstract definition of a tangent vector is equivalent to the old one in $\mathbb{R}^n$.
 
-**Corollary:** The set of partial derivatives $\left\{ \frac{\partial}{\partial x^i} \right\}_{i=1}^{n}$ forms a basis for the tangent space $T_a \R^{n}$.
+**Corollary:** The set of partial derivatives $\left\{ \frac{\partial}{\partial x^i} \right\}_{i=1}^{n}$ forms a basis for the tangent space $T_a \mathbb{R}^{n}$.
 
 ### Generalizing to Manifolds
 
 The derivation concept is the key to defining tangent vectors on general manifolds, where an ambient Euclidean space might not be available.
 
-**Definition:** A map $ v : C^{\infty}(M) \to \R $ is called a **derivation** at a point $a \in M$ if it satisfies the linearity and Leibniz rules. The set of all derivations at $a$ forms the **tangent space** $T_a M$.
+**Definition:** A map $ v : C^{\infty}(M) \to \mathbb{R} $ is called a **derivation** at a point $a \in M$ if it satisfies the linearity and Leibniz rules. The set of all derivations at $a$ forms the **tangent space** $T_a M$.
 
 This definition is intrinsic and does not rely on any embedding, making it a powerful tool for studying manifold properties.
 
