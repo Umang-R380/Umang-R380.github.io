@@ -6,9 +6,24 @@
   <title>Blog Post</title>
   <link rel="stylesheet" href="style.css" />
 
+  <!-- Polyfill for ES6 -->
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
+  <!-- MathJax v3 -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script id="MathJax-script" async 
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+  </script>
+
+  <!-- Marked.js -->
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
@@ -21,33 +36,30 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', async () => {
-      // Get the post filename from the URL query parameter
       const params = new URLSearchParams(window.location.search);
       const postFile = params.get('post');
       const contentElement = document.getElementById('post-content');
 
       if (postFile) {
         try {
-          // Fetch the markdown file from the 'posts' folder
           const response = await fetch(`posts/${postFile}.md`);
+          if (!response.ok) throw new Error('Post not found.');
 
-          if (!response.ok) {
-            throw new Error('Post not found.');
-          }
-          
           const markdown = await response.text();
-          
-          // Convert markdown to HTML and display it
+
+          // Render markdown
           contentElement.innerHTML = marked.parse(markdown);
 
-          // Update the page title to the post's title (first h1)
+          // Set document title from first h1
           const postTitle = contentElement.querySelector('h1');
           if (postTitle) {
             document.title = postTitle.innerText;
           }
-          
-          // This line tells the fully-loaded MathJax engine to render the math
-          MathJax.typeset();
+
+          // Trigger MathJax rendering after content insertion
+          if (window.MathJax && MathJax.typesetPromise) {
+            MathJax.typesetPromise();
+          }
 
         } catch (error) {
           contentElement.innerHTML = `<h1>Error</h1><p>${error.message}</p>`;
@@ -59,3 +71,4 @@
   </script>
 </body>
 </html>
+
