@@ -1,28 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Umang's Math Blog</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <title>Umang’s Math Notes</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+      margin: 0;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    .pdf-container {
+      margin: 30px auto;
+      max-width: 900px;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+    iframe {
+      width: 100%;
+      height: 600px;
+      border: none;
+      margin-top: 10px;
+    }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <header class="main-header">
-      <h1>Umang's Math Blog</h1>
-      <p>Exploring the elegant worlds of mathematics and computer science.</p>
-    </header>
+  <h1>Umang’s Math Notes</h1>
 
-    <main class="post-list">
-      <a class="post-link" href="post.html?post=differential-geometry">
-        <h2>An Introduction to Differential Geometry</h2>
-        <p>Exploring manifolds and the curvature of spacetime.</p>
-      </a>
-      <a class="post-link" href="post.html?post=complex-analysis">
-        <h2>The Fundamentals of Complex Analysis</h2>
-        <p>A journey into the world of complex numbers and functions.</p>
-      </a>
-      </main>
+  <div class="pdf-container">
+    <h2>Complex Analysis</h2>
+    <iframe src="pdfs/complex_analysis.pdf"></iframe>
   </div>
+
+  <div class="pdf-container">
+    <h2>Differential Geometry</h2>
+    <iframe src="pdfs/differential_geometry.pdf"></iframe>
+  </div>
+
+  <div class="pdf-container">
+    <h2>Tangent Vector</h2>
+    <iframe src="pdfs/tangent_vector.pdf"></iframe>
+  </div>
+
 </body>
 </html>
+
+
