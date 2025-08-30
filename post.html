@@ -1,76 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Blog Post</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <title>Post</title>
+  <link rel="stylesheet" href="style.css">
 
-  <!-- Polyfill for ES6 -->
+  <!-- MathJax setup -->
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-
-  <!-- MathJax v3 -->
-  <script>
-    window.MathJax = {
-      tex: {
-        inlineMath: [['$', '$'], ['\\(', '\\)']],
-        displayMath: [['$$', '$$'], ['\\[', '\\]']]
-      },
-      svg: { fontCache: 'global' }
-    };
+  <script id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
   </script>
-  <script id="MathJax-script" async 
-    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
-  </script>
-
-  <!-- Marked.js -->
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
   <div class="container">
-    <header class="post-header">
-      <a href="index.html">← Back to Home</a>
-    </header>
-    <main id="post-content" class="post-content"></main>
+    <h1>My Post</h1>
+
+    <!-- Example MathJax -->
+    <p>
+      Here is some math inline: \( e^{i\pi} + 1 = 0 \).  
+      And displayed:
+    </p>
+    \[
+      \int_{-\infty}^\infty e^{-x^2} \, dx = \sqrt{\pi}
+    \]
+
+    <!-- Example embedded PDF -->
+    <h2>My LaTeX PDF</h2>
+    <iframe src="tangent_vector.pdf" width="100%" height="600px" style="border:none;"></iframe>
   </div>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', async () => {
-      const params = new URLSearchParams(window.location.search);
-      const postFile = params.get('post');
-      const contentElement = document.getElementById('post-content');
-
-      if (postFile) {
-        try {
-          const response = await fetch(`posts/${postFile}.md`);
-          if (!response.ok) throw new Error('Post not found.');
-
-          const markdown = await response.text();
-
-          // Render markdown
-          contentElement.innerHTML = marked.parse(markdown);
-
-          // Set document title from first h1
-          const postTitle = contentElement.querySelector('h1');
-          if (postTitle) {
-            document.title = postTitle.innerText;
-          }
-
-          // Trigger MathJax rendering after content insertion
-          if (window.MathJax && MathJax.typesetPromise) {
-            MathJax.typesetPromise();
-          }
-
-        } catch (error) {
-          contentElement.innerHTML = `<h1>Error</h1><p>${error.message}</p>`;
-        }
-      } else {
-        contentElement.innerHTML = '<h1>Error</h1><p>No post specified.</p>';
-      }
-    });
-  </script>
 </body>
 </html>
+
 
 
 
